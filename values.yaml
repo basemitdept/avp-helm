@@ -2724,6 +2724,15 @@ repoServer:
     - name: avp
       command: [/var/run/argocd/argocd-cmp-server]
       image: registry.access.redhat.com/ubi8
+        #  env:
+        #    - name: VAULT_ADDR
+        #      value: http://vault.vault:8200
+        #    - name: AVP_AUTH_TYPE
+        #      value: token
+        #    - name: AVP_TYPE
+        #      value: vault
+        #    - name: VAULT_TOKEN
+        #      value: hvs.jjgSM5BnqggVNp9VenojpQGK
       securityContext:
         runAsNonRoot: true
         runAsUser: 999

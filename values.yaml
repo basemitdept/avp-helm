@@ -2732,7 +2732,7 @@ repoServer:
         #    - name: AVP_TYPE
         #      value: vault
         #    - name: VAULT_TOKEN
-        #      value: hvs.jjgSM5BnqggVNp9VenojpQGK
+        #      value: 
       securityContext:
         runAsNonRoot: true
         runAsUser: 999

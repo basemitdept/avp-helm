@@ -2731,8 +2731,6 @@ repoServer:
         #      value: token
         #    - name: AVP_TYPE
         #      value: vault
-        #    - name: VAULT_TOKEN
-        #      value: 
       securityContext:
         runAsNonRoot: true
         runAsUser: 999

@@ -2724,15 +2724,15 @@ repoServer:
     - name: avp
       command: [/var/run/argocd/argocd-cmp-server]
       image: registry.access.redhat.com/ubi8
-        #  env:
-        #    - name: VAULT_ADDR
-        #      value: http://vault.vault:8200
-        #    - name: AVP_AUTH_TYPE
-        #      value: token
-        #    - name: AVP_TYPE
-        #      value: vault
-        #    - name: VAULT_TOKEN
-        #      value: hvs.jjgSM5BnqggVNp9VenojpQGK
+      env:
+        - name: VAULT_ADDR
+          value: http://vault.vault:8200
+        - name: AVP_AUTH_TYPE
+          value: token
+        - name: AVP_TYPE
+          value: vault
+        - name: VAULT_TOKEN
+          value: hvs.jjgSM5BnqggVNp9VenojpQGK
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
@@ -2748,13 +2748,47 @@ repoServer:
         - mountPath: /home/argocd/cmp-server/config/plugin.yaml
           subPath: avp.yaml
           name: cmp-plugin
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: avp-helm.yaml
+          name: cmp-plugin
 
           # Important: Mount tools into $PATH 
         - name: custom-tools
           subPath: argocd-vault-plugin
           mountPath: /usr/local/bin/argocd-vault-plugin
 
+    - name: avp-helm
+      command: [/var/run/argocd/argocd-cmp-server]
+      image: alpine/helm
+      env:
+        - name: VAULT_ADDR
+          value: http://vault.vault:8200
+        - name: AVP_AUTH_TYPE
+          value: token
+        - name: AVP_TYPE
+          value: vault
+        - name: VAULT_TOKEN
+          value: hvs.jjgSM5BnqggVNp9VenojpQGK
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /tmp
+          name: tmp
 
+          # Register plugins into sideca
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: avp-helm.yaml
+          name: cmp-plugin
+
+          # Important: Mount tools into $PATH
+        - name: custom-tools
+          subPath: argocd-vault-plugin
+          mountPath: /usr/local/bin/argocd-vault-plugin
 
     # - name: cmp-my-plugin
     #   command:
